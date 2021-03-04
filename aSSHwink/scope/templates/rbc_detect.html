@@ -1,0 +1,189 @@
+{% extends "global_template.html" %}
+
+{% block body %}
+
+<title>RBC Auto| Ashwink</title>
+
+<body data-gr-c-s-loaded="true" style="background: #f4f0f6;">
+
+<div class="jumbotron text-center" style="background-color: #010101c2;color: white;padding: 0em 2em 2em 2em;">
+	<h1>
+		<span style="font-family: Courier;font-size: x-large; margin-bottom: -5.5%;margin-right: 4.5em;">>_</span>
+			<br>
+		A<span style="font-family: Courier;">SSH</span>WINK
+	</h1>
+    <p style=" margin: -0.5%;"> RBC detection </p>
+</div>
+
+
+
+
+
+ 
+<style>
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+ border-top: 16px solid #f44336;
+    border-right: 16px solid #f44336;
+    border-bottom: 16px solid #ff0000;
+    border-left: 16px solid #f4433600;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+
+
+
+
+<div class="container">
+	<div class="row">
+		 <div class="col-md-6">
+			 <div class="row">
+				<img src='{% url "stream" %}' width='100%'>
+			 </div>
+			 <div class="row">
+			 <p>INFO:</p>
+				<div id="info"></div>
+			 </div>
+		 </div>
+		 
+	
+				
+		 <div class="col-md-6">
+			<div class="row">
+				<div class="col-md-6" align = "center" style="    padding: 0.5em;">
+					<button type="button" onclick=showContent('manual_detect')  class="btn btn-success">Manual</button>
+				</div>
+
+				<div class="col-md-6" align = "center" style="    padding: 0.5em;">
+					 <button type="button" onclick="showContent('auto_detect'); buttonclick('auto');" class="btn btn-danger">Auto</button>
+				</div>
+			</div>
+			
+			<div class="row" id="manual_detect" style=" display:none; ">
+				<div class="col-md-12"  align = "center" style=" padding: 0.5em;">
+					<?xml version="1.0" encoding="UTF-8"?>
+					{%include 'controller.svg'%}
+				</div>
+				
+				<div class="col-md-6" align = "center" style=" padding: 0.5em;">
+						<button type="button" onclick=buttonclick('manual_snap') class="btn btn-warning">Register Image</button>
+				 <button type="button" onclick=buttonclick('/af') class="btn btn-success">
+					Auto Focus
+					</button>
+				</div>	
+				
+			
+				<div class="row">	
+					<div class="col-md-5" align = "center" style="    padding: 0.5em;">
+					<div class="btn-group" data-toggle="buttons">
+					<a href="#" class="btn btn-dark disabled" role="button" aria-disabled="true">BrightField</a>
+					
+						<button type="button" onclick=buttonclick('/light/bf') class="btn btn-light">LED</button>
+					</div>
+					</div>
+					<div class="col-md-7" align = "center" style="    padding: 0.5em;">
+					
+					<div class="btn-group" data-toggle="buttons">
+					<a href="#" class="btn btn-dark disabled" role="button" aria-disabled="true">DarkField</a>
+					
+					
+						<button type="button"onclick=buttonclick('/light/r') class="btn btn-danger">Red</button>
+						<button type="button" onclick=buttonclick('/light/g') class="btn btn-success">Green</button>
+						<button type="button" onclick=buttonclick('/light/b') class="btn btn-primary">Blue</button>
+					</div>
+					</div>
+				</div>
+				
+			
+			
+		
+			
+			
+			
+			
+		</div>
+				
+					<div class="row" id="auto_detect" style=" display:none; ">
+				<div class="col-md-12"  align = "center" style=" padding: 0.5em;">
+				<div class="loader"></div>
+				<br>
+				<h3>Please Wait...</h3>
+
+				
+				</div>
+			</div>	
+				
+		
+	 </div>
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+</body>
+
+
+
+<script>
+
+function buttonclick(link) { 
+    $.ajax({url: link,
+	success: function(result){
+	
+	if(result=="show_report")
+	{onlyShowContent('auto_detect');
+		onlyHideContent('manual_detect');
+	window.location.href="report";}
+	else
+		$("#info").html(result);
+  }
+  });
+}
+
+
+
+function showContent(id) {
+  var x = document.getElementById(id);
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+function onlyShowContent(id) {
+  var x = document.getElementById(id);
+    x.style.display = "block";
+  
+}
+
+function onlyHideContent(id) {
+  var x = document.getElementById(id);
+    x.style.display = "none";
+  
+}
+
+
+
+</script>
+
+
+
+{%endblock%}

@@ -1,0 +1,103 @@
+{% extends "global_template.html" %}
+
+{% block body %}
+
+<title>RBC Auto| Ashwink</title>
+
+<body data-gr-c-s-loaded="true" style="background: #f4f0f6;">
+
+<div class="jumbotron text-center" style="background-color: #010101c2;color: white;padding: 0em 2em 2em 2em;">
+	<h1>
+		<span style="font-family: Courier;font-size: x-large; margin-bottom: -5.5%;margin-right: 4.5em;">>_</span>
+			<br>
+		A<span style="font-family: Courier;">SSH</span>WINK
+	</h1>
+    <p style=" margin: -0.5%;"> Report RBC Detection </p>
+</div>
+
+
+<script  type="text/javascript">
+	$(document).ready( function () {
+		initComparisons();
+});
+	
+	</script>
+
+
+
+<div class="container">
+		 
+		 <div class="row">
+		 <div class="col-md-12">
+				<div class="jumbotron jumbotron-fluid" style="
+								font-family: system-ui;
+								font-weight: 300;
+								text-align: center;
+								background: #ce2424c7;
+								color: white;
+							">
+				  <div class="container">
+					<h1 >RBC Conc. {{rbc_conc}}</h1>
+							
+					<p class="lead">{{message}}
+					<br>
+					<br>
+					<a role="button" href="{% url "rbc_detect" %}" class="btn btn-danger">Run Again</a>
+					</p>
+				  </div>
+				</div>
+		 </div>
+		 </div>
+		 
+		 <div class="row">
+		 {%for sample in samples%}
+		 <div class="col-md-3">
+				<div class="card" >
+					 <img class="card-img-top" src="{{sample.new_img}}" alt="Card image cap">
+						 
+				  <div class="card-body">
+							
+					
+					<p class="card-text">
+						Count: {{sample.rbc_count}}
+						<br>
+						Conc: {{sample.rbc_conc}} M/uL
+						</p>
+						</div>
+				</div>
+			
+		 </div>
+		 
+		 {%endfor%}
+		 </div>
+		 
+		 
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+</body>
+
+
+
+<script>
+
+function buttonclick(link) {
+    $.ajax({url: link,
+	success: function(result){
+    $("#info").html(result);
+  }
+  });
+}
+
+
+
+</script>
+
+
+
+{%endblock%}

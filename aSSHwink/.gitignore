@@ -1,0 +1,7 @@
+scope/_MotorPositions/*.obj
+scope/static/scope/snapshots/*.jpg
+scope/static/scope/snapshots/thumbs/*.jpg
+*.pyc
+*.sqlite3
+scope/static/scope/rbc_detected/*.jpg
+__pycache__/

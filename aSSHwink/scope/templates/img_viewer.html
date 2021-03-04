@@ -1,0 +1,100 @@
+{% extends "global_template.html" %}
+
+{% block body %}
+
+<title>Image Viewer| Ashwink</title>
+
+<body data-gr-c-s-loaded="true" style="background: #f4f0f6;">
+
+<div class="jumbotron text-center" onclick="location.href='/';" style="background-color: #010101c2;color: white;padding: 0em 2em 2em 2em;">
+<h1>
+	<span style="font-family: Courier;font-size: x-large; margin-bottom: -5.5%;margin-right: 4.5em;">>_</span>
+	<br>
+	A<span style="font-family: Courier;">SSH</span>WINK
+</h1>
+    <p style=" margin: -0.5%;"> Image Viewer </p>
+</div>
+
+
+
+
+<div class="container">
+{% load static %}
+	<div class="row">
+		{% for img in imgs%}
+		<div class='col-md-3'style="    padding: 0.5em;">
+			<div class="card" style="    padding: 0.5em;">
+			  <img class="card-img-top img-thumbnail" src="{% static img.thumbpath %}"alt="Card image cap">
+			  <div class="card-body">
+				<h5 class="card-title">{{img.name}}</h5>
+				<p class="card-text" style="font-size: small;"> <b>Date:</b> {{img.date}} <b>Time:</b> {{img.time}}</p>
+				<div class="text-right">
+				
+				<a title="Detect RBC" href="{% url 'rbcform' name=img.name %}" class="btn btn-danger text-right"><i class="fa fa-circle-o-notch"></i></a>
+				<a title="View" href="{% static img.path %}" class="btn btn-success text-right"><i class="fa fa-eye"></i></a>
+				<!--a href="#" onclick="copyText('{% static img.path %}')" class="btn btn-warning text-right"><i class="fa fa-copy"></i></a-->			  
+				<a title="Download" href="{% static img.path%}" class="btn btn-primary text-right" download><i class="fa fa-download"></i></a>
+			  <button title="Delete" onclick=buttonclick("/delete/{{img.name}}")  class="btn btn-danger text-right"><i class="fa fa-trash"></i></button>
+			  
+				</div>
+			 </div>
+			</div>
+		</div>
+		
+	
+
+		{% endfor %}
+	
+		
+	</div>
+	
+	<div class="row justify-content-md-center">
+		<div class='col-md-auto'>
+			<!--Pagination-->
+				<nav aria-label="...">
+				  <ul class="pagination">
+					<li class="page-item {{page_prev}}"> <a class="page-link" href="{% url 'img_viewer' pageno=curr_page|add:"-1" %}" tabindex="-1">Previous</a></li>
+					
+					{% for idx in pageidx%}
+					
+					<li class="page-item {{idx.activity}}"> <a class="page-link" href="{% url 'img_viewer' pageno=idx.pageno%}">{{idx.pageno}} </a></li>
+					
+					{% endfor %}
+					
+					<li class="page-item {{page_next}}"> <a class="page-link" href="{% url 'img_viewer' pageno=curr_page|add:"1"%}">Next</a></li>
+					
+				  </ul>
+				</nav>
+			
+
+		</div>
+	</div>
+</div>
+
+<script>
+	
+function copyText(text) {
+  
+  const el = document.createElement('textarea');
+  el.value = window.location.hostname+text;
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+}
+
+</script>
+
+<script>
+
+function buttonclick(link) {
+    $.ajax({url: link,
+	success: function(result){
+    history.go(0)
+  }
+  });
+}
+</script>
+
+
+{%endblock%}

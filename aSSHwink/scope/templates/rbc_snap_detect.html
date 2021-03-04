@@ -1,0 +1,145 @@
+{% extends "global_template.html" %}
+
+{% block body %}
+
+
+<title>RBC Detector | Ashwink</title>
+
+<body data-gr-c-s-loaded="true" style="background: #f4f0f6;">
+
+<div class="jumbotron text-center" onclick="location.href='/';" style="background-color: #010101c2;color: white;padding: 0em 2em 2em 2em;">
+<h1>
+	<span style="font-family: Courier;font-size: x-large; margin-bottom: -5.5%;margin-right: 4.5em;">>_</span>
+	<br>
+	A<span style="font-family: Courier;">SSH</span>WINK
+</h1>
+    <p style=" margin: -0.5%;"> RBC Detector </p>
+</div>
+
+<script  type="text/javascript">
+	$(document).ready( function () {
+ initComparisons();
+});
+	
+	</script>
+
+
+<div class="container">
+
+	<div class="row">
+					<div class='col-md-6'style="    padding: 0.5em;">
+						<div class='col-md-12'style="    padding: 0.5em;">
+						
+							<div class="alert alert-danger" role="alert" style="display:{{alert_disp_status}}">
+							 {{alert_message}}
+							 </div>
+						</div>
+						<div class='col-md-12'style="    padding: 0.5em;">
+															
+									<div class="img-comp-container">
+									  <div class="img-comp-img">
+										<img src="{{  new_img }}"  style="width: 35vw;">
+									  </div>
+									  <div class="img-comp-img img-comp-overlay">
+										<img src="{{  old_img }}"  style="width: 35vw;">
+									  </div>
+									</div>
+
+						</div>
+					
+					</div>
+					
+					<div class='col-md-6'style="    padding: 0.5em;">
+						<div class="row">
+								<div class='col-md-6'style="    padding: 0.5em;">
+								<div class="card" >
+									  <div class="card-body">
+										<h5 class="card-title">Report</h5>
+									
+										<p class="card-text">
+											Count: {{rbc_count}}
+											<br>
+											Conc: {{rbc_conc}} M/uL
+											</p>
+											<br>
+											<a title="Download" href="{{  new_img }}" class="btn btn-danger text-right" download> Download <i class="fa fa-download"></i></a>
+									  </div>
+									</div>
+								</div>
+								<div class='col-md-6'style="    padding: 0.5em;">
+								 {% autoescape off %}
+								  {{ plot_div }}
+								  {% endautoescape %}
+								</div>
+								<div class='col-md-12'style="    padding: 0.5em;">
+								
+								<div id="accordion">
+										<div class="card">
+											  <div class="card-header text-white bg-primary mb-3" id="headingOne">
+												 
+													<div class="btn btn-primary" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+													 Advanced Options
+													</div>
+												  
+											  </div>
+
+												<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+												  <div class="card-body">
+													
+														<form action = "{% url 'rbcform' name=name %}" method = "POST" id="advoptions">
+														{% csrf_token %}
+														  <div class="form-group row">
+															 <label for="param1" class="col-sm-4 col-form-label" >Parameter 1 :</label>
+															 <input class="col-sm-2 form-control" type="text" id="param1" name="param1" value="{{param1}}"  oninput="param1range.value = this.value" required>
+															<input  class="col-sm-12" type="range" class="form-control-range" id="param1range"  value="{{param1}}" step="0.01"  min="0" max="255" oninput="param1.value = this.value" >
+														  </div>
+														  
+														 <div class="form-group row">
+															 <label for="param2text" class="col-sm-4 col-form-label" >Parameter 2 :</label>
+															 <input class="col-sm-2 form-control" type="text" id="param2" name="param2" value="{{param2}}"  oninput="param2range.value = this.value" required>
+															 <input  class="col-sm-12" type="range" class="form-control-range" id="param2range"  value="{{param2}}" step="0.01"  min="0" max="255" oninput="param2.value = this.value" >
+														  </div>
+														  
+														  
+														  <div class="form-group row">
+														  
+														  <div class="col-sm-4">
+																<label for="minDist">Min Distance</label>
+																  <input type="number" id="minDist" name="minDist" class="form-control" value="{{minDist}}" >
+																</div>
+															
+														  <div class="col-sm-4">
+																<label for="minRad">Min Radius</label>
+																  <input type="number" id="minRad" name="minRad" class="form-control" value="{{minRad}}">
+																</div>
+																<div class="col-sm-4">
+																<label for="maxRad">Max Radius</label>
+																  <input type="text" id="maxRad" name="maxRad" class="form-control" value="{{maxRad}}">
+																</div>
+																
+														</div>
+														 
+														 
+														 
+														  <button type="submit" class="btn btn-primary">Detect</button>
+														  <button type="submit" class="btn btn-success" formaction="{% url 'update_rbc_params'%}">Set Defaults</button>
+														</form>		
+													
+													</div>
+												</div>
+										</div>
+								</div>
+								
+								</div>
+						</div>
+					</div>
+	</div>
+
+
+</div>
+
+
+
+{%endblock%}
+
+
